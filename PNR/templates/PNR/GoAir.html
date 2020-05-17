@@ -47,6 +47,14 @@
   </ul>
 </nav>
 
+{% if check %}
+  {% if auth_status %}
+    <script>alert("VALID PNR");</script>
+  {% else %}
+    <script>alert("INVALID PNR");</script>
+  {% endif %}
+{% endif %}
+
 <div class="container-fluid">
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -54,13 +62,13 @@
         <ul class="nav flex-column">
           <h3> Econmony Airlines</h3>
           <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <a class="nav-link active" href="{% url 'goair_land' %}">
               <span data-feather="home"></span>
               Go Air<span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <a class="nav-link active" href="{% url 'indigo_land' %}">
               <span data-feather="home"></span>
               IndiGO<span class="sr-only">(current)</span>
             </a>
@@ -161,7 +169,7 @@
         </div>
       </div>
       <div align ="centre">
-      <form action = "" method = "POST">
+      <form action = "{% url 'goair_verify' %}" method = "POST">
         <h1 class="h3 mb-3 font-weight-normal">PNR Verify</h1>
         <p class="p mb-3 font-weight-normal">Powered by Selenium &copy; & Kaneki</p>
         {% csrf_token %}

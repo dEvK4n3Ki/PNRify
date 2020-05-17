@@ -9,5 +9,7 @@ urlpatterns = [
     path('dash/',PNR.views.redirect_to_dash, name = 'dashboard'),
     path('GoAirVerify/',PNR.views.goair_landing,name = 'goair_land'),
     path('IndigoVerify/',PNR.views.indigo_landing,name = 'indigo_land'),
-    path('Verify',PNR.views.indigo_verify,name = 'indigo_verify'),
+    path('VerifyIndigo',PNR.views.indigo_verify,name = 'indigo_verify'),
+    path('VerifyGoAir',PNR.views.goair_verify,name = 'goair_verify'),
+
 ]

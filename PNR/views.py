@@ -1,9 +1,17 @@
+#django Imports
+import time
 from django.shortcuts import render , redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from selenium import webdriver
 from django.utils.datastructures import MultiValueDictKeyError
+from django.template.response import TemplateResponse
+
+#Selenium Imports
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+
 
 def login_auth(request):
     try:
@@ -28,16 +36,49 @@ def redirect_to_dash(request):
 def goair_landing(request):
     return render(request, 'PNR/GoAir.html')
 
+def goair_verify(request):
+    if request.method == 'POST':
+        pnr = request.POST.get('pnr')
+        lname = request.POST.get('lname')
+        book_date = request.POST.get('book_date')
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--headless')
+        driver_goair = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver",chrome_options=chrome_options)
+        driver_goair.get('https://www.goair.in/plan-my-trip/manage-booking')
+        driver_goair.implicitly_wait(10)
+        driver_goair.find_element(By.NAME, "PNR").send_keys(pnr)
+        driver_goair.find_element(By.NAME,"FirstName").send_keys(lname)
+        driver_goair.find_element_by_xpath('//button[normalize-space()="Retrieve Booking"]').click()
+        URL_current = driver_goair.current_url
+        redirect_url = "https://book.goair.in/Booking"
+        if URL_current != redirect_url:
+            return render(request,'PNR/GoAir.html',{'check':True , 'auth_status':False})
+        else:
+            return render(request,'PNR/GoAir.html',{'check':True ,'auth_status':True})
+
+
 def indigo_landing(request):
-        return render(request, 'PNR/Indigo.html')
+    return render(request, 'PNR/Indigo.html', {"check":False})
 
 def indigo_verify(request):
-    options = webdriver.ChromeOptions()
-    driver = webdriver.Chrome(chrome_options=options)
-    driver.implicitly_wait(2)
-    driver.maximize_window()
-    driver.get('http://codepad.org')
-    text_area = driver.find_element_by_id('textarea')
-    text_area.send_keys("This text is send using Python code.")
-    return redirect()
-    # driver.get('https://www.goindigo.in/edit-booking.html?linkNav=edit-booking_header')
+    if request.method == 'POST':
+        pnr = request.POST.get('pnr')
+        lname = request.POST.get('lname')
+        book_date = request.POST.get('book_date')
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--headless')
+        driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver",chrome_options=chrome_options)
+        driver.get('https://www.goindigo.in/member/my-booking.html')
+        driver.implicitly_wait(10)
+        driver.find_element(By.NAME, "booking").send_keys(pnr)
+        driver.find_element(By.NAME,"email").send_keys(lname + Keys.RETURN)
+        driver.implicitly_wait(10)
+        import pdb; pdb.set_trace()
+        URL_current = driver.current_url
+        redirect_url = "https://www.goindigo.in/booking/view.html"
+        if URL_current != redirect_url:
+            return render(request,'PNR/Indigo.html',{'check':True , 'auth_status':False})
+        else:
+            return render(request,'PNR/Indigo.html',{'check':True ,'auth_status':True})
