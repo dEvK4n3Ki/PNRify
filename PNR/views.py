@@ -9,9 +9,11 @@ from django.template.response import TemplateResponse
 
 #Selenium Imports
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
-
 
 def login_auth(request):
     try:
@@ -50,12 +52,17 @@ def goair_verify(request):
         driver_goair.find_element(By.NAME, "PNR").send_keys(pnr)
         driver_goair.find_element(By.NAME,"FirstName").send_keys(lname)
         driver_goair.find_element_by_xpath('//button[normalize-space()="Retrieve Booking"]').click()
-        URL_current = driver_goair.current_url
-        redirect_url = "https://book.goair.in/Booking"
-        if URL_current != redirect_url:
+        try:
+            myElem = WebDriverWait(driver_goair, 5).until(EC.title_is("GoAir | Airline Tickets and Fares - Itinerary"))
+            URL_current = driver_goair.current_url
+            redirect_url = "https://book.goair.in/Booking"
+            if URL_current == redirect_url:
+                return render(request,'PNR/GoAir.html',{'check':True ,'auth_status':True})
+            else:
+                return render(request,'PNR/GoAir.html',{'check':True , 'auth_status':False})
+
+        except TimeoutException:
             return render(request,'PNR/GoAir.html',{'check':True , 'auth_status':False})
-        else:
-            return render(request,'PNR/GoAir.html',{'check':True ,'auth_status':True})
 
 
 def indigo_landing(request):
@@ -74,11 +81,14 @@ def indigo_verify(request):
         driver.implicitly_wait(10)
         driver.find_element(By.NAME, "booking").send_keys(pnr)
         driver.find_element(By.NAME,"email").send_keys(lname + Keys.RETURN)
-        driver.implicitly_wait(10)
-        import pdb; pdb.set_trace()
-        URL_current = driver.current_url
-        redirect_url = "https://www.goindigo.in/booking/view.html"
-        if URL_current != redirect_url:
+        try:
+            myElem = WebDriverWait(driver, 5).until(EC.title_is("Itinerary"))
+            URL_current = driver.current_url
+            redirect_url = "https://www.goindigo.in/booking/view.html"
+            if URL_current == redirect_url:
+                return render(request,'PNR/Indigo.html',{'check':True ,'auth_status':True})
+            else:
+                return render(request,'PNR/Indigo.html',{'check':True , 'auth_status':False})
+
+        except TimeoutException:
             return render(request,'PNR/Indigo.html',{'check':True , 'auth_status':False})
-        else:
-            return render(request,'PNR/Indigo.html',{'check':True ,'auth_status':True})
