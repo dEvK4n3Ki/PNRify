@@ -7,3 +7,6 @@ from django.utils.datastructures import MultiValueDictKeyError
 # Create your views here.
 def login(request):
     return render (request,'user/login.html')
+
+def homepage(request):
+    return render (request,'user/home.html')

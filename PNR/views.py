@@ -6,7 +6,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.utils.datastructures import MultiValueDictKeyError
 from django.template.response import TemplateResponse
-
+from django.contrib.auth.decorators import login_required
+from PNRify.settings import LOGIN_REDIRECT_URL
 #Selenium Imports
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -35,9 +36,11 @@ def redirect_to_dash(request):
     if(uname) : del(request.session['usernm'])
     return render(request,'PNR/index.html',{'uname':uname})
 
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def goair_landing(request):
     return render(request, 'PNR/GoAir.html')
 
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def goair_verify(request):
     if request.method == 'POST':
         pnr = request.POST.get('pnr')
@@ -65,9 +68,11 @@ def goair_verify(request):
             return render(request,'PNR/GoAir.html',{'check':True , 'auth_status':False})
 
 
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def indigo_landing(request):
     return render(request, 'PNR/Indigo.html', {"check":False})
 
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def indigo_verify(request):
     if request.method == 'POST':
         pnr = request.POST.get('pnr')
