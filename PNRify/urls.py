@@ -3,7 +3,8 @@ from django.urls import path
 import user.views
 import PNR.views
 urlpatterns = [
-    path(' ', user.views.hompage, name = 'home'),
+    path('', user.views.homepage, name = 'home'),
+    path('contact', user.views.contact, name = 'contact'),
     path('login', user.views.login, name = 'login'),
     path('login_auth',PNR.views.login_auth,name = 'loginauth'),
     path('admin/', admin.site.urls),
@@ -12,5 +13,6 @@ urlpatterns = [
     path('IndigoVerify/',PNR.views.indigo_landing,name = 'indigo_land'),
     path('VerifyIndigo',PNR.views.indigo_verify,name = 'indigo_verify'),
     path('VerifyGoAir',PNR.views.goair_verify,name = 'goair_verify'),
+    path('logout',user.views.logout_view,name = 'logout'),
 
 ]

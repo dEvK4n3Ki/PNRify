@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.utils.datastructures import MultiValueDictKeyError
 
@@ -10,3 +10,10 @@ def login(request):
 
 def homepage(request):
     return render (request,'user/home.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('home',permanent = True )
+
+def contact(request):
+    return render (request,'user/contact.html')
