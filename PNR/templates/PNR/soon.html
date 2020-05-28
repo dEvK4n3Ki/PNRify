@@ -46,13 +46,13 @@
     </li>
   </ul>
 </nav>
-{% if check %}
+<!-- {% if check %}
   {% if auth_status %}
     <script>alert("VALID PNR");</script>
   {% else %}
     <script>alert("INVALID PNR");</script>
   {% endif %}
-{% endif %}
+{% endif %} -->
 <div class="container-fluid">
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -162,30 +162,11 @@
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h1">IndiGO Verify PNR</h1>
+        <h1 class="h1">Feature Comming Soon.....</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
         </div>
       </div>
-      <div align ="centre">
-      <form action = "{% url 'indigo_verify' %}" method = "POST">
-        <h1 class="h3 mb-3 font-weight-normal">PNR Verify</h1>
-        <p class="p mb-3 font-weight-normal">Powered by Selenium &copy; & Kaneki</p>
-        {% csrf_token %}
-        <!-- <label for="PNR"> PNR</label> -->
-        <br />
-        <br />
-        <br />
-        <input type="text" id="pnr" name = "pnr" class="form-control" placeholder="PNR Number" maxlength="7" required autofocus style = "width : 256px"/>
 
-        <label for="Last name" class="sr-only">Last Name</label>
-        <input type="text" id="lname" name = "lname" class="form-control" placeholder="Email / Last name" required style = "width : 256px"/>
-
-        <label for = "Date Of Booking" class = 'sr-only'>Date Of Booking</label>
-        <input type = "date" id = "book_date" name = "book_date" class = "form-control" placeholder="Date Of Booking" required style = "width : 256px"/>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit" value="OK" style = "width : 256px">Verify</button>
-        </form>
-        </div>
       <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
       <h2>Section title</h2>

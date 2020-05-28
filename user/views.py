@@ -15,5 +15,5 @@ def logout_view(request):
     logout(request)
     return redirect('home',permanent = True )
 
-def contact(request):
-    return render (request,'user/contact.html')
+def about(request):
+    return render (request,'user/about.html')

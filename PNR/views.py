@@ -101,3 +101,8 @@ def indigo_verify(request):
 
         except TimeoutException:
             return render(request,'PNR/Indigo.html',{'check':True , 'auth_status':False})
+
+
+@login_required(login_url=LOGIN_REDIRECT_URL)
+def soon(request):
+    return render(request , 'PNR/soon.html')
